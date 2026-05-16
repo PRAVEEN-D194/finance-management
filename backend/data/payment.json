@@ -1,0 +1,32 @@
+[
+  {
+    "customerId": "6826c7a1b91c2d0012345671",
+    "paidAmount": 5000,
+    "Paidinterest": 500,
+    "remainingBalance": 15500
+  },
+  {
+    "customerId": "6826c7a1b91c2d0012345672",
+    "paidAmount": 10000,
+    "Paidinterest": 1000,
+    "remainingBalance": 32000
+  },
+  {
+    "customerId": "6826c7a1b91c2d0012345673",
+    "paidAmount": 7500,
+    "Paidinterest": 750,
+    "remainingBalance": 21750
+  },
+  {
+    "customerId": "6826c7a1b91c2d0012345674",
+    "paidAmount": 12000,
+    "Paidinterest": 1200,
+    "remainingBalance": 40800
+  },
+  {
+    "customerId": "6826c7a1b91c2d0012345675",
+    "paidAmount": 3000,
+    "Paidinterest": 300,
+    "remainingBalance": 9700
+  }
+]
