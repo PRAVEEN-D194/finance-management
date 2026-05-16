@@ -11,7 +11,7 @@ const getallcustomer = async(req, res, next)=>{
     }else{
         res.status(200).json({
         success: true,
-        customer: customers
+        customer:customers
         });
        
     }
