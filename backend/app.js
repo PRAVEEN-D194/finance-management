@@ -4,6 +4,7 @@ const path = require("path");
 const connectdb = require("./config/connectdb");
 const customer = require("./routes/customer");
 const payment = require("./routes/payemnt");
+const pdf = require("./routes/pdf.js");
 
 dotenv.config({ path: path.join(__dirname, "./config/.env") });
 const app = express();
@@ -12,6 +13,7 @@ connectdb();
 
 app.use("/api/v1", customer);
 app.use("/api/v1", payment);
+app.use("/api/v1", pdf);
 
 app.listen(process.env.PORT, () => {
     console.log(`The serever is runing at ${process.env.PORT}`);

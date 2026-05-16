@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const customerSchema = require('./customerSchema');
 
 const paymentSchema = new mongoose.Schema({
 
@@ -11,16 +12,17 @@ const paymentSchema = new mongoose.Schema({
   paidAmount: {
     type: Number,
     required: true,
+    default:0
   },
 
   Paidinterest: {
     type: Number,
     required: true,
+    default: 0
   },
 
   remainingBalance: {
     type: Number,
-    required: true,
   },
 
 //   note: {
@@ -33,5 +35,15 @@ const paymentSchema = new mongoose.Schema({
   },
 
 });
+
+paymentSchema.pre("save", async function(next){
+  try{
+    const customer = await customerSchema.findById(this.customerId);
+    this.remainingBalance = customer.remainingAmount - this.Paidinterest - this.paidAmount;
+    await customerSchema.findByIdAndUpdate(this.customerId,{$set:{remainingAmount:this.remainingBalance}})
+  }catch(err){
+        message:err.message
+  }
+})
 
 module.exports = mongoose.model("paymentSchema", paymentSchema);

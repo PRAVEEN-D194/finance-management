@@ -31,7 +31,7 @@ const customerSchema = new mongoose.Schema({
 
   createdAt: {
     type: Date,
-    default: () => new Date().toISOString().split("T")[0],
+    default:new Date()
   },
 
 });

@@ -4,7 +4,7 @@ const getallcustomer = async(req, res, next)=>{
     try{
         const customers = await customerSchema.find({});
         if(customers.length == 0){
-         res.status(404).json({
+         res.json({
             success:true,
             customer:customers
         })
@@ -18,6 +18,7 @@ const getallcustomer = async(req, res, next)=>{
     }catch(err){
         res.status(500).json({
             success:false,
+            message:err.message
         });
     }
 }
