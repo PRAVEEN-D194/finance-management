@@ -5,11 +5,13 @@ const connectdb = require("./config/connectdb");
 const customer = require("./routes/customer");
 const payment = require("./routes/payemnt");
 const pdf = require("./routes/pdf.js");
+const cors = require('cors');
 
 dotenv.config({ path: path.join(__dirname, "./config/.env") });
 const app = express();
 app.use(express.json());
 connectdb();
+app.use(cors());
 
 app.use("/api/v1", customer);
 app.use("/api/v1", payment);
