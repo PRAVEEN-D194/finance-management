@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Ravi",
+    "totalAmount": 10000,
+    "interestPercent": 10,
+    "remainingAmount": 8000
+  },
+  {
+    "name": "Kumar",
+    "totalAmount": 15000,
+    "interestPercent": 12,
+    "remainingAmount": 12000
+  },
+  {
+    "name": "Suresh",
+    "totalAmount": 20000,
+    "interestPercent": 15,
+    "remainingAmount": 17000
+  },
+  {
+    "name": "Arun",
+    "totalAmount": 5000,
+    "interestPercent": 8,
+    "remainingAmount": 3000
+  },
+  {
+    "name": "Vijay",
+    "totalAmount": 25000,
+    "interestPercent": 18,
+    "remainingAmount": 22000
+  }
+]
