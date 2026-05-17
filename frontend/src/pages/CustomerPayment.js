@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import Payment from '../components/Payment';
 import Addpayment from '../components/Addpayment';
+import { Navigate, useNavigate } from "react-router-dom";
 export default function CustomerPayment(){
     const [payment, setpayment] = useState([])
     const { id } = useParams();
@@ -35,6 +36,33 @@ export default function CustomerPayment(){
       },[])
 
     const Totalpaid = customer.totalAmount - customer.remainingAmount;
+        const getPDF = async (id) => {
+
+            try {
+
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_URL}/pdf/${id}`,
+                    {
+                        responseType: "blob"
+                    }
+                );
+
+                // Create PDF URL
+                const fileURL = window.URL.createObjectURL(
+                    new Blob([response.data], {
+                        type: "application/pdf"
+                    })
+                );
+
+                // Open PDF in new tab
+                window.open(fileURL, "_blank");
+
+            } catch (err) {
+
+                console.log(err);
+
+            }
+        };
     return(
         <>
         <div className='Customerdetials'>
@@ -56,7 +84,7 @@ export default function CustomerPayment(){
         ))}
         </div>
         <div className='but'>
-            <button>get PDF</button>
+            <button onClick={() => getPDF(customer._id)}>get PDF</button>
         </div>
         <Addpayment payment={id}></Addpayment>
         </>

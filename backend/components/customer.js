@@ -54,7 +54,7 @@ const postcustomer = async(req, res, next)=>{
         const addcustomer = await customerSchema.create(customer);
         res.status(200).json({
             success:true,
-            message: "customer added successfully"
+            customer:customer
         })
     }catch(err){
         res.status(500).json({

@@ -20,24 +20,24 @@ export default function Home(){
 
     },[])
     return ( <>
-    <Addcustomer />
+    <Addcustomer/>
 
     <div id="customercontainer">
         <div className="customer-card">
-      <div className="field"><strong>Name:</strong></div>
-      <div className="field"><strong>Total:</strong></div>
-      <div className="field"><strong>Interest:</strong></div>
+        <div className="field"><strong>Name:</strong></div>
+        <div className="field"><strong>Total:</strong></div>
+        <div className="field"><strong>Interest:</strong></div>
 
-      <div className="field"><strong>Remaining:</strong></div>
+        <div className="field"><strong>Remaining:</strong></div>
 
-      <div className="field"><strong>Date:</strong></div>
-      <div>
-        <strong>delete or View</strong>
-    </div>
+        <div className="field"><strong>Date:</strong></div>
+        <div>
+          <strong>delete or View</strong>
         </div>
-      {customer.map((c, index) => (
-        <Customer key={index} customer={c} />
-      ))}
-    </div>
+            </div>
+          {customer.map((c, index) => (
+            <Customer key={index} customer={c} setcustomer={setcustomer} />
+          ))}
+        </div>
   </>)
 }

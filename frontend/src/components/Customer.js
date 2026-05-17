@@ -1,10 +1,25 @@
 import { Navigate, useNavigate } from "react-router-dom";
 import Payment from "./Payment";
+import axios from "axios";
 
-export default function Customer({ customer }){
+export default function Customer({ customer, setcustomer }){
     const navigate = useNavigate();
     const oncl = ()=>{
         navigate(`/payment/${customer._id.toString()}`);
+    }
+    const ondelete = async(id)=>{
+
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete?"
+        );
+        // If user clicks NO
+        if (!confirmDelete) {
+            return;
+        }
+        const req = await axios.delete(`${process.env.REACT_APP_API_URL}/customer/${id}`)
+        
+        setcustomer((prev) =>
+        prev.filter((c) => c._id !== id));
     }
     return <>
     <div className="customer-card">
@@ -15,7 +30,7 @@ export default function Customer({ customer }){
     <div className="field">{new Date(customer.createdAt).toLocaleDateString()}</div>
 
     <div className="actions">
-        <button>Delete</button>
+        <button onClick={() => ondelete(customer._id)}>Delete</button>
         <button onClick={oncl}>View</button>
     </div>
 </div>

@@ -12,6 +12,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Home></Home>}></Route>
             <Route path='/payment/:id' element={<CustomerPayment/>}></Route>
+            <Route path='/pdf/:id' element={<CustomerPayment/>}></Route>
           </Routes>
         </div>
       </Router>

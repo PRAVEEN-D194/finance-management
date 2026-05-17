@@ -21,6 +21,7 @@ export default function Addpayment({payment}){
                 customerId: payment
             };
             const res = axios.post(`${process.env.REACT_APP_API_URL}/payment/${payment}`, payload);
+            window.location.reload();
         }catch(err){
             console.log(err);
         }
