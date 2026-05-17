@@ -1,16 +1,22 @@
+import { Navigate, useNavigate } from "react-router-dom";
+import Payment from "./Payment";
+
 export default function Customer({ customer }){
-    
+    const navigate = useNavigate();
+    const oncl = ()=>{
+        navigate(`/payment/${customer._id.toString()}`);
+    }
     return <>
     <div className="customer-card">
-    <div className="field"><strong>Name:</strong> {customer.name}</div>
-    <div className="field"><strong>Total:</strong> {customer.totalAmount}</div>
-    <div className="field"><strong>Interest:</strong> {customer.interestPercent}</div>
-    <div className="field"><strong>Remaining:</strong> {customer.remainingAmount}</div>
-    <div className="field"><strong>Date:</strong> {new Date(customer.createdAt).toLocaleDateString()}</div>
+    <div className="field">{customer.name}</div>
+    <div className="field">{customer.totalAmount}</div>
+    <div className="field"> {customer.interestPercent}</div>
+    <div className="field"> {customer.remainingAmount}</div>
+    <div className="field">{new Date(customer.createdAt).toLocaleDateString()}</div>
 
     <div className="actions">
         <button>Delete</button>
-        <button>View</button>
+        <button onClick={oncl}>View</button>
     </div>
 </div>
     </>

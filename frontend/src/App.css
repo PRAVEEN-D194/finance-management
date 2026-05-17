@@ -11,6 +11,8 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 
     gap: 15px;
+
+    overflow-x: auto; /* important */
 }
 
 .field {
@@ -91,4 +93,185 @@ button {
 
 button:hover {
     background: #357ab8;
+}
+.Payment {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 2fr 2fr;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-family: Arial, sans-serif;
+
+  width: 100%;
+}
+/* PAGE WRAPPER */
+.customerpayment {
+  padding: 20px;
+  padding-bottom: 140px; /* IMPORTANT: prevents bottom hide */
+  font-family: Arial, sans-serif;
+}
+
+/* TOP CARD */
+.Customerdetials {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.Customerdetials h3 {
+  margin: 5px 10px;
+  font-size: 15px;
+}
+
+/* TABLE HEADER + ROWS */
+.payment-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 2fr 2fr;
+
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.payment-row.header {
+  font-weight: bold;
+  background: #eee;
+}
+
+/* FIXED BOTTOM BAR */
+.payment {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 10px;
+
+  padding: 12px;
+  background: white;
+
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+
+  z-index: 1000;
+}
+
+/* INPUT STYLE */
+.payment input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* BUTTON */
+.payment button {
+  background: blue;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 600px) {
+
+  .payment {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-row {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .Customerdetials {
+    flex-direction: column;
+  }
+
+  .customerpayment {
+    padding-bottom: 180px;
+  }
+}
+.Customerdetials {
+  position: sticky;
+  top: 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
+  padding: 15px 20px;
+  background: #24fb36;
+
+  border-bottom: 2px solid #eee;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  z-index: 1000;
+}
+
+.Customerdetials h1 {
+  font-size: 16px;
+  margin: 5px 10px;
+  font-weight: 600;
+  color: #333;
+}
+@media (max-width: 600px) {
+  .Customerdetials {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .Customerdetials h1 {
+    font-size: 14px;
+  }
+}
+
+
+/* RIGHT SIDE BUTTON (FLOATING BUT SAFE) */
+.but {
+  position: fixed;
+  right: 20px;
+  bottom: 120px; /* keeps it above your bottom payment bar */
+
+  z-index: 1001;
+}
+
+/* BUTTON STYLE */
+.but button {
+  background: green;
+  color: white;
+
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* MOBILE FIX */
+@media (max-width: 600px) {
+  .but {
+    right: 10px;
+    bottom: 160px; /* extra space for small screens */
+  }
+
+  .but button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
 }

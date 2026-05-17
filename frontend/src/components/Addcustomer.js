@@ -16,7 +16,7 @@ export default function Addcustomer(){
     const onsub = async (e)=>{
         e.preventDefault();
         try{
-            await axios.post("http://localhost:8000/api/v1/customer", customer);
+            await axios.post(`${process.env.REACT_APP_API_URL}/customer`, customer);
             setcustomer({
                 name : "",
                 totalAmount : "",
