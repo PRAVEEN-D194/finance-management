@@ -1,5 +1,29 @@
 const customerSchema = require("../modules/customerSchema");
 
+const getsinglecustomer = async(req, res, next)=>{
+    try{
+        const id = req.params.id;
+        const customer = await customerSchema.findById({_id:id});
+        if(!customer){
+            res.status(404).json({
+            success:false,
+            customer:customer
+        })
+        }else{
+            res.status(200).json({
+            success:true,
+            customer:customer
+        })
+        }
+
+    }catch(err){
+        res.status(500).json({
+            success:false,
+            message:err.message
+        });
+    }
+}
+
 const getallcustomer = async(req, res, next)=>{
     try{
         const customers = await customerSchema.find({});
@@ -30,7 +54,7 @@ const postcustomer = async(req, res, next)=>{
         const addcustomer = await customerSchema.create(customer);
         res.status(200).json({
             success:true,
-            message: "customer added successfully"
+            customer:customer
         })
     }catch(err){
         res.status(500).json({
@@ -64,4 +88,4 @@ const deletecustomer =  async(req, res, next)=>{
     }
 }
 
-module.exports = {getallcustomer:getallcustomer, postcustomer:postcustomer, deletecustomer:deletecustomer};
+module.exports = {getallcustomer:getallcustomer,getsinglecustomer:getsinglecustomer, postcustomer:postcustomer, deletecustomer:deletecustomer};

@@ -1,16 +1,37 @@
-export default function Customer({ customer }){
-    
+import { Navigate, useNavigate } from "react-router-dom";
+import Payment from "./Payment";
+import axios from "axios";
+
+export default function Customer({ customer, setcustomer }){
+    const navigate = useNavigate();
+    const oncl = ()=>{
+        navigate(`/payment/${customer._id.toString()}`);
+    }
+    const ondelete = async(id)=>{
+
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete?"
+        );
+        // If user clicks NO
+        if (!confirmDelete) {
+            return;
+        }
+        const req = await axios.delete(`${process.env.REACT_APP_API_URL}/customer/${id}`)
+        
+        setcustomer((prev) =>
+        prev.filter((c) => c._id !== id));
+    }
     return <>
     <div className="customer-card">
-    <div className="field"><strong>Name:</strong> {customer.name}</div>
-    <div className="field"><strong>Total:</strong> {customer.totalAmount}</div>
-    <div className="field"><strong>Interest:</strong> {customer.interestPercent}</div>
-    <div className="field"><strong>Remaining:</strong> {customer.remainingAmount}</div>
-    <div className="field"><strong>Date:</strong> {new Date(customer.createdAt).toLocaleDateString()}</div>
+    <div className="field">{customer.name}</div>
+    <div className="field">{customer.totalAmount}</div>
+    <div className="field"> {customer.interestPercent}</div>
+    <div className="field"> {customer.remainingAmount}</div>
+    <div className="field">{new Date(customer.createdAt).toLocaleDateString()}</div>
 
     <div className="actions">
-        <button>Delete</button>
-        <button>View</button>
+        <button onClick={() => ondelete(customer._id)}>Delete</button>
+        <button onClick={oncl}>View</button>
     </div>
 </div>
     </>

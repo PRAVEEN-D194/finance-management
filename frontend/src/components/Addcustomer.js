@@ -2,11 +2,11 @@ import { useState } from "react"
 import axios from "axios";
 
 export default function Addcustomer(){
-    const [customer, setcustomer] = useState("");
+    const [customer, setCustomers] = useState("");
 
     const setvalue = (e)=>{
         const name = e.target.name;
-        setcustomer((prev)=>{
+        setCustomers((prev)=>{
             return {
                 ...prev, [name] : e.target.value
             }
@@ -15,9 +15,13 @@ export default function Addcustomer(){
 
     const onsub = async (e)=>{
         e.preventDefault();
+
+
         try{
-            await axios.post("http://localhost:8000/api/v1/customer", customer);
-            setcustomer({
+            const res = await axios.post(`${process.env.REACT_APP_API_URL}/customer`, customer);
+            window.location.reload();
+
+            setCustomers({
                 name : "",
                 totalAmount : "",
                 interestPercent :  "",

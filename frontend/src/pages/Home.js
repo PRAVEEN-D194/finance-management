@@ -9,9 +9,7 @@ export default function Home(){
     useEffect(()=>{
         const fetchdata = async()=>{
             try{
-                const res = await axios.get("http://localhost:8000/api/v1/customer");
-                console.log(res.data);
-                console.log(res.data.customer)
+                const res = await axios.get(`${process.env.REACT_APP_API_URL}/customer`);
                 setcustomer(res.data.customer);
             }catch(err){
                 console.log(err);
@@ -21,12 +19,25 @@ export default function Home(){
         
 
     },[])
-    return (<>
-        <Addcustomer></Addcustomer>
-         <div id="customercontainer">
-                {customer.map((c) => (
-                    <Customer customer={c} />
-                ))}
+    return ( <>
+    <Addcustomer/>
+
+    <div id="customercontainer">
+        <div className="customer-card">
+        <div className="field"><strong>Name:</strong></div>
+        <div className="field"><strong>Total:</strong></div>
+        <div className="field"><strong>Interest:</strong></div>
+
+        <div className="field"><strong>Remaining:</strong></div>
+
+        <div className="field"><strong>Date:</strong></div>
+        <div>
+          <strong>delete or View</strong>
+        </div>
             </div>
-        </>)
+          {customer.map((c, index) => (
+            <Customer key={index} customer={c} setcustomer={setcustomer} />
+          ))}
+        </div>
+  </>)
 }
