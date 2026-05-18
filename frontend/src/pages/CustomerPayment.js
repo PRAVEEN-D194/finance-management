@@ -11,7 +11,6 @@ export default function CustomerPayment(){
         const fetchdata = async ()=>{
             try{
                 const res =await axios.get(`${process.env.REACT_APP_API_URL}/payment/${id}`);
-                console.log(res.data.payment)
                 setpayment(res.data.payment);
             }catch(err){
                 console.log(err);
@@ -26,7 +25,6 @@ export default function CustomerPayment(){
           const fetchdata = async()=>{
               try{
                   const res = await axios.get(`${process.env.REACT_APP_API_URL}/customer/${id}`);
-                  console.log(res.data);
                   setcustomer(res.data.customer);
               }catch(err){
                   console.log(err);

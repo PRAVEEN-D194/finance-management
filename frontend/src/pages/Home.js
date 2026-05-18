@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 export default function Home(){
-
     const [customer, setcustomer] = useState([]);
     useEffect(()=>{
         const fetchdata = async()=>{
@@ -19,9 +18,62 @@ export default function Home(){
         
 
     },[])
-    return ( <>
-    <Addcustomer/>
 
+    const amount = customer.reduce((total, c)=>{
+        return total+c.totalAmount;
+    }, 0)
+
+    const getAmount = customer.reduce((total, c)=>{
+        return total + c.totalAmount - c.remainingAmount;
+    }, 0)
+
+    const ExpectedInterest = customer.reduce((total, c)=>{
+        return total + ((c.totalAmount * c.interestPercent)/100);
+    }, 0)
+    const count = customer.reduce((total, c)=>{
+        return total+=1;
+    }, 0)
+    const getprofitorloss = ()=>{
+    const TotalProfit = getAmount - amount;
+    if(TotalProfit<=0){
+        return `LOSS : ${TotalProfit}`;
+    }
+    else{
+        return `PROFIT : ${TotalProfit}`;
+    }
+    }
+    
+    return ( <>
+    <div className="dashboard">
+
+        <div className="dash-card">
+            <h3>Total Amount</h3>
+            <p>₹{amount}</p>
+        </div>
+
+        <div className="dash-card">
+            <h3>Get Amount</h3>
+            <p>₹{getAmount}</p>
+        </div>
+
+        <div className="dash-card">
+            <h3>Expected Interest</h3>
+            <p>₹{ExpectedInterest}</p>
+        </div>
+
+        <div className="dash-card">
+            <h3>Profit / Loss</h3>
+            <p>{getprofitorloss()}</p>
+        </div>
+
+        <div className="dash-card">
+            <h3>Customers</h3>
+            <p>{count}</p>
+        </div>
+
+    </div>
+    <Addcustomer/>
+    
     <div id="customercontainer">
         <div className="customer-card">
         <div className="field"><strong>Name:</strong></div>
