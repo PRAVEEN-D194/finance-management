@@ -57,4 +57,27 @@ const addpayment = async(req, res, next)=>{
         });
     }
 }
-module.exports = {getpayment:getpayment, addpayment:addpayment};
+
+const deletepayment = async(req, res, next)=>{
+    try{
+        const id = req.params.id;
+        const payment = await paymentSchema.findByIdAndDelete({_id:id})
+        if(!payment){
+            res.status(404).json({
+                success:false,
+                message:"payment not found"
+            })        }else{
+                res.status(200).json({
+                    success:true,
+                    message:"payment deleted successfully"
+                })
+            }
+        }
+        catch(err){
+            res.status(500).json({
+                success:false,
+                message:err.message
+            })
+        }
+    }
+module.exports = {getpayment:getpayment, addpayment:addpayment,deletepayment:deletepayment};
