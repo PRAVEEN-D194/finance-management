@@ -30,7 +30,7 @@ export default function Addpayment({payment}){
         <div class="customerpayment">
         <div className="payment">
             <div><input type="number" placeholder="paidAmount" name="paidAmount" onChange={onset}></input></div>
-            <div> <input type="number" placeholder="paidInterest" name="Paidinterest" onChange={onset}></input></div>
+            <div> <input type="number" placeholder="paidIntrest" name="Paidinterest" onChange={onset}></input></div>
             <div><input type="date" placeholder="paidDate" name="paidDate" onChange={onset}></input></div>
             <button onClick={butt}>Addpayment</button>
         </div>
