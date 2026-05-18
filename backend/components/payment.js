@@ -1,4 +1,5 @@
 const paymentSchema = require("../modules/paymentSchema");
+const customerSchema = require("../modules/customerSchema");
 const mongoose = require("mongoose");
 
 const getpayment = async(req, res, next)=>{
@@ -29,12 +30,25 @@ const getpayment = async(req, res, next)=>{
 
 const addpayment = async(req, res, next)=>{
     try{
-        const payment = req.body;
+        const id = req.params.id;
+        const customer = await customerSchema.findById({_id:id});
+        const remainingAmount = Number(customer.remainingAmount);
+        const pintrest = Number(req.body.Paidinterest ?? 0 );
+        const pamount = Number(req.body.paidAmount ?? 0);
+        if(remainingAmount>0 && remainingAmount - pintrest - pamount >= 0){
+                const payment = req.body;
                 const addpayment = await paymentSchema.create(payment);
                 res.status(200).json({
                     success:true,
                     message: "payment added successfully"
                 })
+        }
+        else{
+            res.status(200).json({
+                    success:false,
+                    message: "you paid all amount or you amount more then you geted amount plece check"
+                })
+        }
     }catch(err){
         console.log(err);
         res.status(500).json({

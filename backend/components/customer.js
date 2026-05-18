@@ -88,4 +88,26 @@ const deletecustomer =  async(req, res, next)=>{
     }
 }
 
-module.exports = {getallcustomer:getallcustomer,getsinglecustomer:getsinglecustomer, postcustomer:postcustomer, deletecustomer:deletecustomer};
+const updatecustomer = async(req, res, next) =>{
+    try{
+        const id = req.params.id;
+        const setcustomer = req.body;
+        const customer = await customerSchema.findByIdAndUpdate({_id:id}, {$set: setcustomer}, {new:true});
+        if(!customer){
+            res.status(404).json({
+            success:false,
+            message: "customer not found"
+        })
+        }else{
+            res.status(200).json({
+            success:true,
+            message: "customer updated successfully"
+        })
+    }
+
+    }catch(err){
+        console.log(err);
+    }
+}
+
+module.exports = {getallcustomer:getallcustomer,getsinglecustomer:getsinglecustomer, postcustomer:postcustomer, deletecustomer:deletecustomer, updatecustomer:updatecustomer};
