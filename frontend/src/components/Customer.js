@@ -21,6 +21,10 @@ export default function Customer({ customer, setcustomer }){
         setcustomer((prev) =>
         prev.filter((c) => c._id !== id));
     }
+
+    const onupdate = ()=>{
+        navigate(`/update/${customer._id.toString()}`);
+    }
     return <>
     <div className="customer-card">
     <div className="field">{customer.name}</div>
@@ -30,7 +34,9 @@ export default function Customer({ customer, setcustomer }){
     <div className="field">{new Date(customer.createdAt).toLocaleDateString()}</div>
 
     <div className="actions">
+        
         <button onClick={() => ondelete(customer._id)}>Delete</button>
+        <button onClick={onupdate}>update</button>
         <button onClick={oncl}>View</button>
     </div>
 </div>
