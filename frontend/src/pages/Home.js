@@ -23,20 +23,28 @@ export default function Home(){
         return total+c.totalAmount;
     }, 0)
 
-    const getAmount = customer.reduce((total, c)=>{
-        return total + c.totalAmount - c.remainingAmount;
+    // const getAmount = customer.reduce((total, c)=>{
+    //     return total + c.totalAmount + ((c.totalAmount * c.interestPercent) / 100)- c.remainingAmount;
+    // }, 0)
+
+    const getAmount = customer.reduce((total, c) => {
+    const interest = (c.totalAmount * c.interestPercent) / 100;
+    const received = (c.totalAmount + interest) - c.remainingAmount;
+
+    return total + received;
     }, 0)
 
     const ExpectedInterest = customer.reduce((total, c)=>{
         return total + ((c.totalAmount * c.interestPercent)/100);
     }, 0)
-    const count = customer.reduce((total, c)=>{
-        return total+=1;
-    }, 0)
+    const count = customer.length;
     const getprofitorloss = ()=>{
     const TotalProfit = getAmount - amount;
-    if(TotalProfit<=0){
-        return `LOSS : ${TotalProfit}`;
+    if(TotalProfit<0){
+        return `LOSS : ${amount}`;
+    }
+    else if(TotalProfit == 0){
+        return `NO LOSS NO PROFIT: ${TotalProfit}`
     }
     else{
         return `PROFIT : ${TotalProfit}`;
@@ -44,6 +52,9 @@ export default function Home(){
     }
     
     return ( <>
+    <header>
+        <h1>Finance Management</h1>
+    </header>
     <div className="dashboard">
 
         <div className="dash-card">
@@ -83,7 +94,7 @@ export default function Home(){
         <div className="field"><strong>Remaining:</strong></div>
 
         <div className="field"><strong>Date:</strong></div>
-        <div>
+        <div className="field">
           <strong>delete or View</strong>
         </div>
             </div>

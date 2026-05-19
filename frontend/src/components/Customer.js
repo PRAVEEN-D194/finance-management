@@ -1,6 +1,7 @@
 import { Navigate, useNavigate } from "react-router-dom";
 import Payment from "./Payment";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function Customer({ customer, setcustomer }){
     const navigate = useNavigate();
@@ -9,17 +10,41 @@ export default function Customer({ customer, setcustomer }){
     }
     const ondelete = async(id)=>{
 
-        const confirmDelete = window.confirm(
-            "Are you sure you want to delete?"
-        );
-        // If user clicks NO
-        if (!confirmDelete) {
-            return;
-        }
+        // const confirmDelete = window.confirm(
+        //     "Are you sure you want to delete?"
+        // );
+        // // If user clicks NO
+        // if (!confirmDelete) {
+        //     return;
+        // }
+
+        
+
+
+    const result = await Swal.fire({
+        title: "Delete Customer?",
+        text: "This data cannot be recovered!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, Delete",
+    })
+
+    if (result.isConfirmed) {
+        // delete api call
         const req = await axios.delete(`${process.env.REACT_APP_API_URL}/customer/${id}`)
         
         setcustomer((prev) =>
         prev.filter((c) => c._id !== id));
+
+        Swal.fire({
+        title: "Deleted!",
+        text: "Customer deleted successfully.",
+        icon: "success",
+        });
+    }
+        
     }
 
     const onupdate = ()=>{

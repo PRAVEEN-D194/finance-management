@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function Addcustomer(){
     const [customer, setCustomers] = useState("");
@@ -19,8 +20,18 @@ export default function Addcustomer(){
 
         try{
             const res = await axios.post(`${process.env.REACT_APP_API_URL}/customer`, customer);
-            window.location.reload();
+            
+            Swal.fire({
+                icon: "success",
+                title: "Customer Added",
+                text: "Customer added successfully"
+                }).then((result) => {
 
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+
+                });
             setCustomers({
                 name : "",
                 totalAmount : "",
@@ -29,7 +40,6 @@ export default function Addcustomer(){
                 createdAt : ""
 
         })
-            console.log("post successfully");
         }catch(err){
             console.log(err);
         }
