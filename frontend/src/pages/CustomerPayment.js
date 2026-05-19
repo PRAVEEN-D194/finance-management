@@ -33,11 +33,26 @@ export default function CustomerPayment(){
           fetchdata();
       },[])
 
+
+    // Calculations
+    const totalAmount = customer.totalAmount || 0;
+
+    const interestPercent = customer.interestPercent || 0;
+
+    const remainingAmount = customer.remainingAmount || 0;
+
+    // Interest amount
+    const interestAmount =
+        (totalAmount * interestPercent) / 100;
+
+    // Total amount with interest
+    const totalWithInterest =
+        totalAmount + interestAmount;
+
+    // Paid amount
     const Totalpaid =
-    (customer.totalAmount || 0) +
-    (((customer.totalAmount || 0) *
-      (customer.interestPercent || 0)) / 100) -
-    (customer.remainingAmount || 0);
+        totalWithInterest - remainingAmount;
+
         const getPDF = async (id) => {
 
             try {
@@ -67,11 +82,16 @@ export default function CustomerPayment(){
         };
     return(
         <>
+        <header>
+        <h1>Finance Management</h1>
+    </header>
         <div className='Customerdetials'>
             <h1>Name:  {customer.name}</h1>
-            <h1>Total Amount:  Rs.{customer.totalAmount}</h1>
+            <h1>Total Amount:  Rs.{totalAmount}</h1>
+            <h1>Interest: {interestPercent}%</h1>
+            <h1>Total With Interest:  Rs.{totalWithInterest}</h1>
             <h1>Total Paid Amount:  Rs.{Totalpaid}</h1>
-            <h1>remaining Amount:  Rs.{customer.remainingAmount}</h1>
+            <h1>remaining Amount:  Rs.{remainingAmount}</h1>
       </div>
         <div className="customerpayment">
             <div className="Payment">

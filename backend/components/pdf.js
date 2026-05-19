@@ -7,7 +7,6 @@ const getpdf = async(req, res, next)=>{
         const id = req.params.id;
         const customer = await customerSchema.findById({_id:id});
         const payment = await paymentSchema.find({customerId:id});
-        const paidamount = customer.totalAmount - customer.remainingAmount;
 
         const doc = new PDFDocument();//create new pdf
 
@@ -40,19 +39,43 @@ const getpdf = async(req, res, next)=>{
         // =========================
         // CUSTOMER DETAILS
         // =========================
+        const totalAmount = customer.totalAmount || 0;
+
+        const interestPercent = customer.interestPercent || 0;
+
+        const remainingAmount = customer.remainingAmount || 0;
+
+        // Interest amount
+        const interestAmount =
+            (totalAmount * interestPercent) / 100;
+
+        // Total amount with interest
+        const totalWithInterest =
+            totalAmount + interestAmount;
+
+         // Paid amount
+        const Totalpaid =
+            totalWithInterest - remainingAmount;
+
 
         doc.fontSize(16);
 
         doc.text(`Customer Name : ${customer.name}`);
         doc.moveDown(0.5);
 
-        doc.text(`Total Amount : Rs.${customer.totalAmount}`);
+        doc.text(`Total Amount : Rs.${totalAmount}`);
         doc.moveDown(0.5);
 
-        doc.text(`Paid Amount : Rs.${paidamount}`);
+        doc.text(`Interest : ${interestPercent}%`);
         doc.moveDown(0.5);
 
-        doc.text(`Remaining Amount : Rs.${customer.remainingAmount}`);
+        doc.text(`Total Amount With Intereast : Rs.${totalWithInterest}`);
+        doc.moveDown(0.5);
+
+        doc.text(`Paid Amount : Rs.${Totalpaid}`);
+        doc.moveDown(0.5);
+
+        doc.text(`Remaining Amount : Rs.${remainingAmount}`);
         doc.moveDown(1.5);
 
 
