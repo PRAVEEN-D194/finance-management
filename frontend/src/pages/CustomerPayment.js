@@ -33,7 +33,11 @@ export default function CustomerPayment(){
           fetchdata();
       },[])
 
-    const Totalpaid = customer.totalAmount - customer.remainingAmount;
+    const Totalpaid =
+    (customer.totalAmount || 0) +
+    (((customer.totalAmount || 0) *
+      (customer.interestPercent || 0)) / 100) -
+    (customer.remainingAmount || 0);
         const getPDF = async (id) => {
 
             try {

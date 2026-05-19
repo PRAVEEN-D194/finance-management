@@ -89,10 +89,12 @@ const deletecustomer =  async(req, res, next)=>{
 }
 
 const updatecustomer = async(req, res, next) =>{
+    console.log("yes")
     try{
         const id = req.params.id;
         const setcustomer = req.body;
         const customer = await customerSchema.findByIdAndUpdate({_id:id}, {$set: setcustomer}, {new:true});
+        
         if(!customer){
             res.status(404).json({
             success:false,
