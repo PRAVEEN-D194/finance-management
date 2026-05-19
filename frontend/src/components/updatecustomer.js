@@ -59,7 +59,7 @@ export default function Updatecustomer (){
                 <label>name:</label><input type="text" name="name" required="true" onChange={setvalue} value={customer.name || ""}></input><br></br>
                 <label>totalAmount:</label><input type="number" name="totalAmount" required="true" onChange={setvalue} value={customer.totalAmount}></input><br></br>
                 <label>interestPercent:</label><input type="number" name="interestPercent" required="true" onChange={setvalue} value={customer.interestPercent}></input><br></br>
-                <label>remainingAmount:</label><input type="number" name="remainingAmount" onChange={setvalue} value={customer.remainingAmount}></input><br></br>
+                {/* <label>remainingAmount:</label><input type="number" name="remainingAmount" onChange={setvalue} value={customer.remainingAmount}></input><br></br> */}
                 <label>date:</label><input type="date" name="createdAt" onChange={setvalue} value={customer.createdAt?.split("T")[0] || ""}></input><br></br>
                 <button type="submit" >submit</button>
             </form>

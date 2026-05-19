@@ -41,7 +41,7 @@ export default function Home(){
     const getprofitorloss = ()=>{
     const TotalProfit = getAmount - amount;
     if(TotalProfit<0){
-        return `LOSS : ${amount}`;
+        return `LOSS : ${TotalProfit}`;
     }
     else if(TotalProfit == 0){
         return `NO LOSS NO PROFIT: ${TotalProfit}`
