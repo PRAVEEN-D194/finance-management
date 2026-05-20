@@ -28,35 +28,64 @@ const getpayment = async(req, res, next)=>{
 
 
 
-const addpayment = async(req, res, next)=>{
-    try{
-        const id = req.params.id;
-        const customer = await customerSchema.findById({_id:id});
-        const remainingAmount = Number(customer.remainingAmount);
-        const pintrest = Number(req.body.Paidinterest ?? 0 );
-        const pamount = Number(req.body.paidAmount ?? 0);
-        if(remainingAmount>0 && remainingAmount - pintrest - pamount >= 0){
-                const payment = req.body;
-                const addpayment = await paymentSchema.create(payment);
-                res.status(200).json({
-                    success:true,
-                    message: "payment added successfully"
-                })
-        }
-        else{
-            res.status(200).json({
-                    success:false,
-                    message: "you paid all amount or you amount more then you geted amount plece check"
-                })
-        }
-    }catch(err){
-        console.log(err);
-        res.status(500).json({
-            success:false,
-            message:err.message
-        });
+const addpayment = async (req, res) => {
+
+  try {
+
+    const id = req.params.id;
+
+    const paidPrincipal = Number(req.body.paidAmount) || 0;
+    const paidInterest = Number(req.body.Paidinterest) || 0;
+
+    const customer = await customerSchema.findById(id);
+
+    if (!customer) {
+      return res.status(404).json({
+        success: false,
+        message: "Customer not found"
+      });
     }
-}
+
+    const newRemaining =
+      customer.remainingAmount - paidPrincipal;
+
+    if (newRemaining < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Over payment not allowed"
+      });
+    }
+
+    // SINGLE SOURCE UPDATE
+    customer.remainingAmount = newRemaining;
+    customer.paidAmount = (customer.paidAmount || 0) + paidPrincipal;
+    customer.paidinterest = (customer.paidinterest || 0) + paidInterest;
+
+    customer.intrestamount =
+      newRemaining * (customer.interestPercent / 100);
+
+    await customer.save();
+
+    await paymentSchema.create({
+      customerId: id,
+      paidAmount: paidPrincipal,
+      Paidinterest: paidInterest,
+      remainingBalance: newRemaining,
+      paidDate: new Date()
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Payment added successfully"
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
 
 const deletepayment = async(req, res, next)=>{
     try{

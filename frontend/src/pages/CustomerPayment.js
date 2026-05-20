@@ -34,25 +34,82 @@ export default function CustomerPayment(){
       },[])
 
 
-    // Calculations
-    const totalAmount = customer.totalAmount || 0;
+    // // Calculations
+    // const totalAmount = customer.totalAmount || 0;
 
-    const interestPercent = customer.interestPercent || 0;
+    // const interestPercent = customer.interestPercent || 0;
 
-    const remainingAmount = customer.remainingAmount || 0;
+    // const remainingAmount = customer.remainingAmount || 0;
 
-    // Interest amount
-    const interestAmount =
-        (totalAmount * interestPercent) / 100;
+    // const paidinterest = customer.paidinterest || 0;
 
-    // Total amount with interest
-    const totalWithInterest =
-        totalAmount + interestAmount;
+    // const paidAmount = customer.paidAmount || 0;
+    // // Interest amount
+    // const interestAmount =
+    //     (remainingAmount * interestPercent) / 100;
 
-    // Paid amount
-    const Totalpaid =
-        totalWithInterest - remainingAmount;
+    // // Total amount with interest
+    // const totalWithInterest =
+    //     totalAmount + interestAmount;
 
+    // // Paid amount
+    // const Totalpaid =
+    //     totalAmount - remainingAmount;
+
+    // const paidprinciple = payment.paidAmount;
+    
+
+    // const paidPercent =
+    // Math.round((Totalpaid / totalWithInterest) * 100);
+
+    // const remainingPercent =
+    // Math.round((remainingAmount / totalWithInterest) * 100);
+
+ // ================= BASE VALUES =================
+const totalAmount = customer.totalAmount || 0;
+const interestPercent = customer.interestPercent || 0;
+
+const remainingAmount = customer.remainingAmount || 0;
+
+// paid values from DB
+const paidInterest = customer.paidinterest || 0;
+const paidPrincipal = (customer.totalAmount - customer.remainingAmount) || 0;
+// ================= INTEREST CALCULATION =================
+// current monthly interest based on remaining principal
+const monthlyInterest =
+    (remainingAmount * interestPercent) / 100;
+
+// snapshot total with interest
+const totalWithInterest =
+    totalAmount + monthlyInterest;
+
+// ================= PAID BREAKDOWN =================
+const totalPaid =
+    paidPrincipal + paidInterest;
+
+// ================= PRINCIPAL TRACKING =================
+const principalPaid =
+    totalAmount - remainingAmount;
+
+// ================= PERCENTAGES =================
+// const paidPercent =
+// totalWithInterest
+//     ? Math.round((totalPaid / totalWithInterest) * 100)
+//     : 0;
+
+// const remainingPercent =
+// totalWithInterest
+//     ? Math.round((remainingAmount / totalWithInterest) * 100)
+//     : 0;
+
+// ================= OPTIONAL DISPLAY VALUES =================
+const display = {
+    paidPrincipal,
+    paidInterest,
+    principalPaid,
+    totalPaid,
+    monthlyInterest,
+};
         const getPDF = async (id) => {
 
             try {
@@ -85,14 +142,80 @@ export default function CustomerPayment(){
         <header>
         <h1>Finance Management</h1>
     </header>
-        <div className='Customerdetials'>
-            <h1>Name:  {customer.name}</h1>
-            <h1>Total Amount:  Rs.{totalAmount}</h1>
-            <h1>Interest: {interestPercent}%</h1>
-            <h1>Total With Interest:  Rs.{totalWithInterest}</h1>
-            <h1>Total Paid Amount:  Rs.{Totalpaid}</h1>
-            <h1>remaining Amount:  Rs.{remainingAmount}</h1>
-      </div>
+<div className="finance-dashboard">
+
+  {/* ================= CUSTOMER HEADER ================= */}
+  <div className="section">
+
+    <div className="card">
+      <h3>👤 Customer Name</h3>
+      <h1>{customer.name}</h1>
+    </div>
+
+    <div className="card">
+      <h3>📅 Joined Date</h3>
+      <p>{new Date(customer.createdAt).toLocaleDateString()}</p>
+    </div>
+
+    <div className="card">
+      <h3>🟢 Status</h3>
+      <p>{remainingAmount > 0 ? "Active" : "Closed"}</p>
+    </div>
+
+  </div>
+
+
+  {/* ================= LOAN OVERVIEW ================= */}
+  <div className="section">
+
+    <div className="card">
+      <h3>💰 Principal Amount</h3>
+      <h2>₹{totalAmount}</h2>
+    </div>
+
+    <div className="card">
+      <h3>📉 Remaining Principal</h3>
+      <h2>₹{remainingAmount}</h2>
+    </div>
+
+    <div className="card">
+      <h3>📈 Interest Rate</h3>
+      <h2>{interestPercent}%</h2>
+    </div>
+
+    <div className="card highlight">
+      <h3>💵 Monthly Interest</h3>
+      <h2>₹{monthlyInterest}</h2>
+    </div>
+
+  </div>
+
+
+  {/* ================= PAYMENT SUMMARY ================= */}
+  <div className="section">
+
+    <div className="card">
+      <h3>🔵 Paid Principal</h3>
+      <h2>₹{principalPaid}</h2>
+    </div>
+
+    <div className="card">
+      <h3>🟢 Paid Interest</h3>
+      <h2>₹{paidInterest}</h2>
+    </div>
+
+    <div className="card">
+      <h3>🟣 Total Paid</h3>
+      <h2>₹{totalPaid}</h2>
+    </div>
+
+  </div>
+
+
+  {/* ================= PROGRESS ================= */}
+  
+
+</div>
         <div className="customerpayment">
             <div className="Payment">
             <div><strong>si.no</strong></div>
@@ -108,7 +231,7 @@ export default function CustomerPayment(){
         <div className='but'>
             <button onClick={() => getPDF(customer._id)}>get PDF</button>
         </div>
-        <Addpayment payment={id}></Addpayment>
+        <Addpayment payment={id} remaining={remainingAmount}></Addpayment>
         </>
     )
 }
