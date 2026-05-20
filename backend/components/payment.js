@@ -109,4 +109,31 @@ const deletepayment = async(req, res, next)=>{
             })
         }
     }
-module.exports = {getpayment:getpayment, addpayment:addpayment,deletepayment:deletepayment};
+
+    const updatepayment=async(req,res)=>{
+        console.log("update payment successfully"); 
+    try{
+        const id=req.params.id;
+        const updatepayment=req.body;
+        const payment=await paymentSchema.findByIdAndUpdate({_id:id},{$set:updatepayment},{new:true})
+        if(!payment){
+            res.status(404).json({
+                success:false,
+                message:"payment not found"
+            })
+        }else{
+            res.status(200).json({
+                success:true,
+                message:"payment updated successfully"
+            })
+        }
+        }
+        catch(err){
+            res.status(500).json({
+                success:false,
+                message:err.message
+            })
+        }
+    }
+
+module.exports = {getpayment:getpayment, addpayment:addpayment,deletepayment:deletepayment,updatepayment:updatepayment};
