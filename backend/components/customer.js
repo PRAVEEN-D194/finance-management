@@ -52,6 +52,8 @@ const postcustomer = async(req, res, next)=>{
     try{
         const customer = req.body;
         const addcustomer = await customerSchema.create(customer);
+        addcustomer.intrestamount = addcustomer.remainingAmount*(addcustomer.interestPercent/100);
+        await addcustomer.save();
         res.status(200).json({
             success:true,
             customer:customer
@@ -89,27 +91,60 @@ const deletecustomer =  async(req, res, next)=>{
 }
 
 const updatecustomer = async(req, res, next) =>{
-    console.log("yes")
+
     try{
+
         const id = req.params.id;
         const setcustomer = req.body;
-        const customer = await customerSchema.findByIdAndUpdate({_id:id}, {$set: setcustomer}, {new:true});
-        
+
+        // old customer
+        const customer = await customerSchema.findById(id);
+
         if(!customer){
-            res.status(404).json({
-            success:false,
-            message: "customer not found"
-        })
-        }else{
-            res.status(200).json({
+            return res.status(404).json({
+                success:false,
+                message:"customer not found"
+            });
+        }
+
+        // updated interest
+        const interest =
+            Number(setcustomer.interestPercent);
+
+        // calculate interest amount
+        const interestAmount =
+            (customer.totalAmount * interest) / 100;
+
+        // total with interest
+        const totalWithInterest =
+            customer.totalAmount + interestAmount;
+
+        // total already paid
+        const totalPaid =
+            customer.totalpaid || 0;
+
+        // new remaining amount
+        setcustomer.remainingAmount =
+            totalWithInterest - totalPaid;
+
+        // update customer
+        const updatedCustomer =
+            await customerSchema.findByIdAndUpdate(
+                id,
+                { $set: setcustomer },
+                { new:true }
+            );
+
+        res.status(200).json({
             success:true,
-            message: "customer updated successfully"
-        })
-    }
+            message:"customer updated successfully",
+            customer: updatedCustomer
+        });
 
     }catch(err){
         console.log(err);
     }
+
 }
 
 module.exports = {getallcustomer:getallcustomer,getsinglecustomer:getsinglecustomer, postcustomer:postcustomer, deletecustomer:deletecustomer, updatecustomer:updatecustomer};

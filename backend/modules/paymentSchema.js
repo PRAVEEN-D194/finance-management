@@ -11,13 +11,11 @@ const paymentSchema = new mongoose.Schema({
 
   paidAmount: {
     type: Number,
-    required: true,
-    default:0
+    default: 0
   },
 
   Paidinterest: {
     type: Number,
-    required: true,
     default: 0
   },
 
@@ -25,9 +23,9 @@ const paymentSchema = new mongoose.Schema({
     type: Number,
   },
 
-//   note: {
-//     type: String,
-//   },
+  //   note: {
+  //     type: String,
+  //   },
 
   paidDate: {
     type: Date,
@@ -36,14 +34,22 @@ const paymentSchema = new mongoose.Schema({
 
 });
 
-paymentSchema.pre("save", async function(next){
-  try{
-    const customer = await customerSchema.findById(this.customerId);
-    this.remainingBalance = customer.remainingAmount - this.Paidinterest - this.paidAmount;
-    await customerSchema.findByIdAndUpdate(this.customerId,{$set:{remainingAmount:this.remainingBalance}})
-  }catch(err){
-        message:err.message
-  }
-})
+// paymentSchema.pre("save", async function (next) {
+//   try {
+//     const customer = await customerSchema.findById(this.customerId);
+//     this.remainingBalance = customer.totalAmount -  this.paidAmount;
+//     const interest = customer.paidinterest + this.Paidinterest;
+//     const paidprinciple = customer.paidAmount + this.paidAmount;
+//     const interestamount = this.remainingBalance * (customer.interestPercent / 100);
+//     await customerSchema.findByIdAndUpdate(this.customerId, { $set: {
+//       remainingAmount: this.remainingBalance, 
+//       paidinterest: interest,
+//       intrestamount:interestamount,
+      
+//        } })
+//   } catch (err) {
+//     message: err.message
+//   }
+// })
 
 module.exports = mongoose.model("paymentSchema", paymentSchema);

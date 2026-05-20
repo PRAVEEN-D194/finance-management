@@ -24,6 +24,14 @@ const customerSchema = new mongoose.Schema({
   remainingAmount: {
     type: Number,
   },
+  paidinterest:{
+    type:Number,
+    default: 0,
+  },
+  intrestamount:{
+    type:Number,
+  },
+  
   //   status: {
   //     type: String,
   //     default: "Pending",
@@ -37,7 +45,11 @@ const customerSchema = new mongoose.Schema({
 });
 
 customerSchema.pre("save", function(next){
-  this.remainingAmount = this.totalAmount + ((this.totalAmount * this.interestPercent) / 100);
+  //const intrestamount = ((this.totalAmount * this.interestPercent) / 100);
+  if (this.isNew) {
+    this.remainingAmount = this.totalAmount;
+  }
 })    
+
 
 module.exports = mongoose.model("customerSchema", customerSchema);

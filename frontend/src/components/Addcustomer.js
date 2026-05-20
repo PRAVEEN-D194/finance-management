@@ -52,6 +52,7 @@ export default function Addcustomer(){
         <label>totalAmount:</label><input type="number" name="totalAmount" required="true" onChange={setvalue} value={customer.totalAmount}></input><br></br>
         <label>interestPercent:</label><input type="number" name="interestPercent" required="true" onChange={setvalue} value={customer.interestPercent}></input><br></br>
         <label>remainingAmount:</label><input type="number" name="remainingAmount" onChange={setvalue} value={customer.remainingAmount}></input><br></br>
+        {/* <label>Paidinterest:</label><input type="number" name="paidinterest" onChange={setvalue} value={customer.paidinterest}></input><br></br> */}
         <label>date:</label><input type="date" name="createdAt" onChange={setvalue} value={customer.createdAt}></input><br></br>
         <button type="submit" >submit</button>
     </form>
