@@ -7,7 +7,6 @@ export default function Customer({ customer, setcustomer }){
     const navigate = useNavigate();
     const oncl = ()=>{
         navigate(`/payment/${customer._id.toString()}`);
-        console.log(customer.intrestamount);
     }
     const ondelete = async(id)=>{
 
@@ -51,14 +50,15 @@ export default function Customer({ customer, setcustomer }){
     const onupdate = ()=>{
         navigate(`/update/${customer._id.toString()}`);
     }
+
+    const paidamount = ((customer.totalAmount) || 0) - ((customer.remainingAmount) ||0);
     return <>
-    <div className="customer-card">
+    <div onClick={oncl} className="customer-card">
     <div className="field">{customer.remainingAmount <=0 ? customer.name + '✅' : customer.name}</div>
-    <div className="field">{customer.totalAmount}</div>
-    <div className="field"> {customer.interestPercent}</div>
-    <div className="field"> {customer.remainingAmount}</div>
-    <div className="field"> {customer.paidinterest}</div>
-    <div className="field"> {customer.intrestamount}</div>
+    <div className="field">₹{customer.totalAmount}</div>
+    <div className="field"> {customer.interestPercent}%</div>
+    <div className="field"> ₹{paidamount}</div>
+    <div className="field">₹{customer.remainingAmount}</div>
     <div className="field">{new Date(customer.createdAt).toLocaleDateString()}</div>
 
     <div className="actions">

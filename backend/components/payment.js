@@ -91,6 +91,10 @@ const deletepayment = async(req, res, next)=>{
     try{
         const id = req.params.id;
         const payment = await paymentSchema.findByIdAndDelete({_id:id})
+        const customer = await customerSchema.findById({_id:payment.customerId});
+        customer.remainingAmount += payment.paidAmount;
+        customer.paidinterest -= payment.Paidinterest;
+        await customer.save();
         if(!payment){
             res.status(404).json({
                 success:false,

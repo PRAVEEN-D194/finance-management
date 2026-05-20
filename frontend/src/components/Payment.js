@@ -1,10 +1,11 @@
 import axios from "axios";
 import Swal from "sweetalert2";
-export default function Payment({ payment, index }) {
-  
-  const ondelete = async ()=>{
-    console.log("deleted payment successfully");
+import { toast } from 'react-toastify';
 
+import { Navigate, useNavigate } from "react-router-dom";
+export default function Payment({ payment, index , setpayment}) {
+  const navigate = useNavigate();
+  const ondelete = async ()=>{
     try{
        const id = payment._id
        const result = await Swal.fire({
@@ -20,13 +21,17 @@ export default function Payment({ payment, index }) {
     if (result.isConfirmed) {
         // delete api call
         const req = await axios.delete(`${process.env.REACT_APP_API_URL}/payment/${id}`);
+        
+        setpayment((prev) =>
+
+        prev.filter((c) => c._id !== id));
 
         Swal.fire({
         title: "Deleted!",
         text: "Payment deleted successfully.",
         icon: "success",
         });
-        window.location.reload();
+        toast.success("Payment deleted successfully please Reoload the page!!!");
     }
         
     }

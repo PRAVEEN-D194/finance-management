@@ -28,12 +28,25 @@ export default function Home(){
     //     return total + c.totalAmount + ((c.totalAmount * c.interestPercent) / 100)- c.remainingAmount;
     // }, 0)
 
-    const getAmount = customer.reduce((total, c) => {
-    const interest = (c.totalAmount * c.interestPercent) / 100;
-    const received = (c.totalAmount + interest) - c.remainingAmount;
+    // const getAmount = customer.reduce((total, c) => {
+    // const interest = (c.totalAmount * c.interestPercent) / 100;
+    // const received = (c.totalAmount + interest) - c.remainingAmount;
 
-    return total + received;
-    }, 0)
+    // return total + received;
+    // }, 0)
+
+    const getAmount = customer.reduce((total, c) => {
+
+    const paidPrincipal =
+        (c.totalAmount || 0) -
+        (c.remainingAmount || 0);
+
+    const paidInterest =
+        c.paidinterest || 0;
+
+    return total + paidPrincipal + paidInterest;
+
+}, 0);
 
     const ExpectedInterest = customer.reduce((total, c)=>{
         return total + ((c.totalAmount * c.interestPercent)/100);
@@ -41,14 +54,21 @@ export default function Home(){
     const count = customer.length;
     const getprofitorloss = ()=>{
     const TotalProfit = getAmount - amount;
-    if(TotalProfit<0){
-        return `LOSS : ${TotalProfit}`;
+
+    if (TotalProfit < 0) {
+
+        return `LOSS : Rs.${Math.abs(TotalProfit)}`;
+
     }
-    else if(TotalProfit == 0){
-        return `NO LOSS NO PROFIT: ${TotalProfit}`
+    else if (TotalProfit === 0) {
+
+        return `NO LOSS NO PROFIT : Rs.0`;
+
     }
-    else{
-        return `PROFIT : ${TotalProfit}`;
+    else {
+
+        return `PROFIT : Rs.${TotalProfit}`;
+
     }
     }
     
@@ -68,10 +88,10 @@ export default function Home(){
             <p>₹{getAmount}</p>
         </div>
 
-        <div className="dash-card">
+        {/* <div className="dash-card">
             <h3>Expected Interest</h3>
             <p>₹{ExpectedInterest}</p>
-        </div>
+        </div> */}
 
         <div className="dash-card">
             <h3>Profit / Loss</h3>
@@ -88,14 +108,12 @@ export default function Home(){
     
     <div id="customercontainer">
         <div className="customer-card">
-        <div className="field"><strong>Name:</strong></div>
-        <div className="field"><strong>Total:</strong></div>
-        <div className="field"><strong>Interest:</strong></div>
-
-        <div className="field"><strong>Remaining(TOTAL):</strong></div>
-        <div className="field"><strong>paid intrest:</strong></div>
-
-        <div className="field"><strong>Date:</strong></div>
+        <div className="field"><strong>Name</strong></div>
+        <div className="field"><strong>Total</strong></div>
+        <div className="field"><strong>Interest</strong></div>
+        <div className="field"><strong>paidAmount</strong></div>
+        <div className="field"><strong>Remaining</strong></div>
+        <div className="field"><strong>Date</strong></div>
         <div className="field">
           <strong>delete or View</strong>
         </div>

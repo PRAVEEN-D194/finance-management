@@ -38,8 +38,8 @@ export default function Addpayment({payment, remaining}){
             await axios.post(`${process.env.REACT_APP_API_URL}/payment/${payment}`, payload)
             Swal.fire({
                         icon: "success",
-                        title: "Customer Added",                        
-                        text: "Customer added successfully"
+                        title: "Payment Added",                        
+                        text: "Payment added successfully"
                     }).then((result) => {
     
                         if (result.isConfirmed) {

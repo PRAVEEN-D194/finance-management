@@ -225,7 +225,7 @@ const display = {
             <div><strong>paid date</strong> </div>
             </div>
             {payment.map((p, index) => (
-                <Payment key={index} payment={p} index={index} />
+                <Payment key={index} payment={p} index={index}  setpayment={setpayment}/>
         ))}
         </div>
         
