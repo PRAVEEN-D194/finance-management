@@ -380,3 +380,416 @@ body{
     padding-top: 90px; /* prevents content hiding under header */
     background-color: #f4f6f9;
 }
+
+
+/* this is the payment details in the top page */
+/* Reset Default Styles */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Background */
+body{
+    background: #0f172a;
+    font-family: Arial, sans-serif;
+}
+
+/* Main Dashboard Container */
+.finance-dashboard{
+    width: 92%;
+    max-width: 1000px; /* reduced width */
+    margin: 20px auto;
+    color: white;
+}
+
+/* Top Customer Card */
+.top-card{
+    background: linear-gradient(135deg,#1e293b,#334155);
+    border-radius: 16px;
+    padding: 20px; /* reduced padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* Customer Small Heading */
+.customer-info h2{
+    color: #94a3b8;
+    margin-bottom: 6px;
+    font-size: 18px;
+}
+
+/* Customer Name */
+.customer-info h1{
+    font-size: 28px; /* reduced */
+    margin-bottom: 6px;
+}
+
+/* Joined Date */
+.customer-info p{
+    color: #cbd5e1;
+    font-size: 15px;
+}
+
+/* Remaining Amount Box */
+.remaining-box{
+    text-align: center;
+    background: rgba(255,255,255,0.08);
+    padding: 15px 28px; /* reduced */
+    border-radius: 12px;
+    border: 2px solid #ef4444;
+}
+
+/* Remaining Heading */
+.remaining-box h3{
+    margin-bottom: 6px;
+    font-size: 18px;
+}
+
+/* Remaining Amount */
+.remaining-box h1{
+    color: #ef4444;
+    font-size: 28px; /* reduced */
+}
+
+/* Grid Cards Container */
+.info-card{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+    gap: 15px; /* reduced gap */
+    margin-bottom: 18px;
+}
+
+/* Individual Small Card */
+.box{
+    background: #1e293b;
+    padding: 18px; /* reduced */
+    border-radius: 14px;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Hover Effect */
+.box:hover{
+    transform: translateY(-4px);
+}
+
+/* Card Title */
+.box h3{
+    margin-bottom: 10px;
+    color: #cbd5e1;
+    font-size: 17px;
+}
+
+/* Card Amount */
+.box p{
+    font-size: 24px; /* reduced */
+    font-weight: bold;
+}
+
+/* Payment Status Section */
+.status-card{
+    background: #1e293b;
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* Status Title */
+.status-card h2{
+    margin-bottom: 18px;
+    font-size: 24px;
+}
+
+/* Each Status Row */
+.status{
+    margin-bottom: 18px;
+}
+
+/* Paid and Remaining Text */
+.status span{
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+/* Progress Bar Background */
+.progress{
+    width: 100%;
+    height: 14px; /* smaller */
+    background: #334155;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Paid Progress Bar */
+.paid-progress{
+    width: 40%;
+    height: 100%;
+    background: #22c55e;
+}
+
+/* Remaining Progress Bar */
+.remaining-progress{
+    width: 60%;
+    height: 100%;
+    background: #ef4444;
+}
+
+/* Mobile Responsive */
+@media(max-width:768px){
+
+    .top-card{
+        flex-direction: column;
+        gap: 18px;
+        text-align: center;
+    }
+
+    .customer-info h1{
+        font-size: 24px;
+    }
+
+    .remaining-box h1{
+        font-size: 24px;
+    }
+
+    .box p{
+        font-size: 20px;
+    }
+
+}
+
+/* this for the payment list font size */
+
+.customerpayment{
+    color: white;
+    font-size: 20px;
+}
+
+.Payment{
+    background: #1e293b;
+    color: #f8fafc;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.Payment strong{
+    color: #38bdf8;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.customerpayment div{
+    font-size: 20px;
+}
+
+.but button{
+    background: #2563eb;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.but button:hover{
+    background: #1d4ed8;
+    transform: scale(1.05);
+}
+
+
+
+/* payment place top new */
+/* ================= RESET ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ================= BODY ================= */
+body {
+    background: #0f172a;
+    font-family: Arial, sans-serif;
+
+}
+
+/* ================= MAIN CONTAINER ================= */
+.finance-dashboard {
+    width: 92%;
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+/* ================= TOP CARD ================= */
+.top-card {
+    background: linear-gradient(135deg, #1e293b, #334155);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* ================= CUSTOMER INFO ================= */
+.customer-info h2 {
+    color: #94a3b8;
+    margin-bottom: 6px;
+    font-size: 18px;
+}
+
+.customer-info h1 {
+    font-size: 28px;
+    margin-bottom: 6px;
+}
+
+.customer-info p {
+    color: #cbd5e1;
+    font-size: 15px;
+}
+
+/* ================= REMAINING BOX ================= */
+.remaining-box {
+    text-align: center;
+    background: rgba(255,255,255,0.08);
+    padding: 15px 28px;
+    border-radius: 12px;
+    border: 2px solid #ef4444;
+}
+
+.remaining-box h3 {
+    margin-bottom: 6px;
+    font-size: 18px;
+}
+
+.remaining-box h1 {
+    color: #ef4444;
+    font-size: 28px;
+}
+
+/* ================= INFO CARDS GRID ================= */
+.info-card {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+/* ================= SMALL BOX ================= */
+.box {
+    background: #1e293b;
+    padding: 18px;
+    border-radius: 14px;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.box:hover {
+    transform: translateY(-4px);
+}
+
+.box h3 {
+    margin-bottom: 10px;
+    color: #cbd5e1;
+    font-size: 17px;
+}
+
+.box p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* ================= STATUS CARD ================= */
+.status-card {
+    background: #1e293b;
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+.status-card h2 {
+    margin-bottom: 18px;
+    font-size: 24px;
+}
+
+/* ================= STATUS ROW ================= */
+.status {
+    margin-bottom: 18px;
+}
+
+.status span {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+/* ================= PROGRESS BAR ================= */
+.progress {
+    width: 100%;
+    height: 12px;
+    background: #334155;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.paid-progress {
+    height: 100%;
+    background: #22c55e;
+    transition: 0.5s;
+}
+
+.remaining-progress {
+    height: 100%;
+    background: #ef4444;
+    transition: 0.5s;
+}
+
+/* ================= LOAN CARDS (NEW SECTION SUPPORT) ================= */
+.section {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+/* ================= CARD ================= */
+.card {
+    flex: 1;
+    background: #1e293b;
+    padding: 16px;
+    border-radius: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.card h3 {
+    color: #94a3b8;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.card h2, .card h1 {
+    font-size: 22px;
+}
+
+/* Highlight card */
+.highlight {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    border: 1px solid #38bdf8;
+}
+
+/* Full width card */
+.full {
+    flex: 100%;
+}

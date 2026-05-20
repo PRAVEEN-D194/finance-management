@@ -9,6 +9,7 @@ export default function Home(){
         const fetchdata = async()=>{
             try{
                 const res = await axios.get(`${process.env.REACT_APP_API_URL}/customer`);
+                console.log(res.data.customer);
                 setcustomer(res.data.customer);
             }catch(err){
                 console.log(err);
@@ -91,7 +92,8 @@ export default function Home(){
         <div className="field"><strong>Total:</strong></div>
         <div className="field"><strong>Interest:</strong></div>
 
-        <div className="field"><strong>Remaining:</strong></div>
+        <div className="field"><strong>Remaining(TOTAL):</strong></div>
+        <div className="field"><strong>paid intrest:</strong></div>
 
         <div className="field"><strong>Date:</strong></div>
         <div className="field">

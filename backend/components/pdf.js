@@ -1,189 +1,115 @@
-const PDFDocument = require('pdfkit');
+const PDFDocument = require("pdfkit");
 const paymentSchema = require("../modules/paymentSchema");
 const customerSchema = require("../modules/customerSchema");
 
-const getpdf = async(req, res, next)=>{
-    try{
-        const id = req.params.id;
-        const customer = await customerSchema.findById({_id:id});
-        const payment = await paymentSchema.find({customerId:id});
+const getpdf = async (req, res) => {
+  try {
+    const id = req.params.id;
 
-        const doc = new PDFDocument();//create new pdf
+    const customer = await customerSchema.findById(id);
+    const payment = await paymentSchema.find({ customerId: id });
 
-        res.setHeader(
-            "Content-Type",
-            "application/pdf"
-        );
+    const doc = new PDFDocument();
 
-        res.setHeader(
-            "Content-Disposition",
-            //`attachment; filename=${customer.name}.pdf`//this for pdf name eg. ravi.pdf auto download
-            `inline; filename=${customer.name}.pdf`//not auto download only show
-        );
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `inline; filename=${customer.name}.pdf`
+    );
 
-        // Pipe PDF
-        doc.pipe(res);//this for send the pdf to the browser
+    doc.pipe(res);
 
-        // =========================
-        // TITLE
-        // =========================
+    // ================= HEADER =================
+    doc.fontSize(22).text("CUSTOMER LOAN REPORT", { align: "center" });
+    doc.moveDown(2);
 
-        doc
-            .fontSize(22)
-            .text("Customer Payment Report", {
-                align: "center"
-            });
+    // ================= CALCULATIONS =================
+    const totalAmount = customer.totalAmount || 0;
+    const interestPercent = customer.interestPercent || 0;
+    const remaining = customer.remainingAmount || 0;
+    const paidInterest = customer.paidinterest || 0;
 
-        doc.moveDown(2);
+    const interestAmount = (totalAmount * interestPercent) / 100;
+    const totalWithInterest = totalAmount + interestAmount;
 
-        // =========================
-        // CUSTOMER DETAILS
-        // =========================
-        const totalAmount = customer.totalAmount || 0;
+    const paidPrincipal = totalAmount - remaining;
+    const totalPaid = paidPrincipal + paidInterest;
 
-        const interestPercent = customer.interestPercent || 0;
-
-        const remainingAmount = customer.remainingAmount || 0;
-
-        // Interest amount
-        const interestAmount =
-            (totalAmount * interestPercent) / 100;
-
-        // Total amount with interest
-        const totalWithInterest =
-            totalAmount + interestAmount;
-
-         // Paid amount
-        const Totalpaid =
-            totalWithInterest - remainingAmount;
-
-
-        doc.fontSize(16);
-
-        doc.text(`Customer Name : ${customer.name}`);
-        doc.moveDown(0.5);
-
-        doc.text(`Total Amount : Rs.${totalAmount}`);
-        doc.moveDown(0.5);
-
-        doc.text(`Interest : ${interestPercent}%`);
-        doc.moveDown(0.5);
-
-        doc.text(`Total Amount With Intereast : Rs.${totalWithInterest}`);
-        doc.moveDown(0.5);
-
-        doc.text(`Paid Amount : Rs.${Totalpaid}`);
-        doc.moveDown(0.5);
-
-        doc.text(`Remaining Amount : Rs.${remainingAmount}`);
-        doc.moveDown(1.5);
-
-
-
-        // =========================
-        // PAYMENT HISTORY TITLE
-        // =========================
-
-        doc
-            .fontSize(18)
-            .text("Payment History");
-
-        doc.moveDown();
-
-        // =========================
-        // TABLE HEADER
-        // =========================
-
-
-
-        // Table Header
-        doc.fontSize(14);
-
-        const y = doc.y;
-
-        doc.text("SI.NO", 50, y);
-        doc.text("PAID AMOUNT", 120, y);
-        doc.text("INTEREST", 280, y);
-        doc.text("DATE", 400, y);
-
-        doc.moveDown();
-
-        // Line
-        doc.moveTo(50, doc.y)
-        .lineTo(550, doc.y)
-        .stroke();
-
-        doc.moveDown(0.5);
-
-        // Table Rows
-        payment.forEach((pay, index) => {
-
-    // If page overflow
-    if (doc.y > 700) {
-
-        doc.addPage();
-
-        // Table header again in new page
-        let newY = doc.y;
-
-        doc.fontSize(14);
-
-        doc.text("SI.NO", 50, newY);
-        doc.text("PAID AMOUNT", 120, newY);
-        doc.text("INTEREST", 280, newY);
-        doc.text("DATE", 400, newY);
-
-        doc.moveDown();
-
-        doc.moveTo(50, doc.y)
-           .lineTo(550, doc.y)
-           .stroke();
-
-        doc.moveDown(0.5);
-    }
-
-    let rowY = doc.y;
+    // ================= CUSTOMER SECTION =================
+    doc.fontSize(16).text("CUSTOMER DETAILS");
+    doc.moveDown(1);
 
     doc.fontSize(12);
+    doc.text(`Name: ${customer.name}`);
+    doc.text(`Joined: ${new Date(customer.createdAt).toLocaleDateString()}`);
+    doc.moveDown(1.5);
 
-    doc.text(index + 1, 50, rowY);
+    // ================= LOAN OVERVIEW =================
+    doc.fontSize(16).text(" LOAN OVERVIEW");
+    doc.moveDown(1);
 
-    doc.text(
-        `Rs.${pay.paidAmount}`,
-        120,
-        rowY
-    );
+    doc.fontSize(12);
+    doc.text(`Principal Amount: Rs.${totalAmount}`);
+    doc.text(`Remaining Principal: Rs.${remaining}`);
+    doc.text(`Interest Rate: ${interestPercent}%`);
+    doc.moveDown(1);
 
-    doc.text(
-        `Rs.${pay.Paidinterest}`,
-        280,
-        rowY
-    );
+    doc.text(`Paid Principal: Rs.${paidPrincipal}`);
+    doc.text(`Paid Interest: Rs.${paidInterest}`);
+    doc.text(`Total Paid: Rs.${totalPaid}`);
 
-    doc.text(
-        pay.paidDate.toLocaleDateString(),
-        400,
-        rowY
-    );
+    doc.moveDown(2);
+
+    // ================= PAYMENT HISTORY =================
+    doc.fontSize(16).text("PAYMENT HISTORY");
+    doc.moveDown(1);
+
+    // Table Header
+    doc.fontSize(12);
+
+    let y = doc.y;
+
+    doc.text("No", 50, y);
+    doc.text("Principal", 100, y);
+    doc.text("Interest", 220, y);
+    doc.text("Balance", 330, y);
+    doc.text("Date", 450, y);
 
     doc.moveDown();
 
-    // Row line
-    doc.moveTo(50, doc.y)
-       .lineTo(550, doc.y)
-       .stroke();
-
+    doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
     doc.moveDown(0.5);
 
-});
-        doc.end();
+    // ================= TABLE ROWS =================
+    payment.forEach((pay, index) => {
+      if (doc.y > 700) {
+        doc.addPage();
+      }
 
+      let rowY = doc.y;
 
-    }catch(err){
-        res.status(500).json({
-        message: err.message,
+      doc.text(index + 1, 50, rowY);
+      doc.text(`Rs.${pay.paidAmount || 0}`, 100, rowY);
+      doc.text(`Rs.${pay.Paidinterest || 0}`, 220, rowY);
+      doc.text(`Rs.${pay.remainingBalance || 0}`, 330, rowY);
+      doc.text(
+        new Date(pay.paidDate).toLocaleDateString(),
+        450,
+        rowY
+      );
+
+      doc.moveDown();
+      doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+      doc.moveDown(0.3);
     });
-    }
-} 
 
-module.exports = {getpdf:getpdf};
+    doc.end();
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+module.exports = { getpdf };

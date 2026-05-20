@@ -7,7 +7,7 @@ const payment = require("./routes/payemnt");
 const pdf = require("./routes/pdf.js");
 const cors = require('cors');
 
-dotenv.config({ path: path.join(__dirname, "./config/.env") });
+dotenv.config({ path: path.join(__dirname, ".env") });
 const app = express();
 app.use(express.json());
 connectdb();
