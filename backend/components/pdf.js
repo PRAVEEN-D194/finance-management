@@ -20,7 +20,7 @@ const getpdf = async (req, res) => {
     doc.pipe(res);
 
     // ================= HEADER =================
-    doc.fontSize(22).text("CUSTOMER LOAN REPORT", { align: "center" });
+    doc.fontSize(22).text("CUSTOMER FINANCE REPORT", { align: "center" });
     doc.moveDown(2);
 
     // ================= CALCULATIONS =================
@@ -45,7 +45,7 @@ const getpdf = async (req, res) => {
     doc.moveDown(1.5);
 
     // ================= LOAN OVERVIEW =================
-    doc.fontSize(16).text(" LOAN OVERVIEW");
+    doc.fontSize(16).text(" FINANCE OVERVIEW");
     doc.moveDown(1);
 
     doc.fontSize(12);
