@@ -105,9 +105,13 @@ export default function CustomerPayment(){
                 <Payment key={index} payment={p} index={index} />
         ))}
         </div>
+        
         <div className='but'>
+
             <button onClick={() => getPDF(customer._id)}>get PDF</button>
+
         </div>
+        
         <Addpayment payment={id}></Addpayment>
         </>
     )
