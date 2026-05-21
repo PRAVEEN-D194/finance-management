@@ -1,4 +1,4 @@
-
+import Updatepayment from './components/Updatepayment';
 import './App.css';
 import CustomerPayment from './pages/CustomerPayment';
 import Home from './pages/Home';
@@ -18,6 +18,7 @@ function App() {
             <Route path='/payment/:id' element={<CustomerPayment/>}></Route>
             <Route path='/pdf/:id' element={<CustomerPayment/>}></Route>
             <Route path='/update/:id' element={<Updatecustomer/>}></Route>
+            <Route path='/updatepayment/:id' element={<Updatepayment/>}></Route>
           </Routes>
         </div>
       </Router>
