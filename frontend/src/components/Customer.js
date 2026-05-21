@@ -53,7 +53,7 @@ export default function Customer({ customer, setcustomer }){
 
     const paidamount = ((customer.totalAmount) || 0) - ((customer.remainingAmount) ||0);
     return <>
-    <div onClick={oncl} className="customer-card">
+    <div className="customer-card">
     <div className="field">{customer.remainingAmount <=0 ? customer.name + '✅' : customer.name}</div>
     <div className="field">₹{customer.totalAmount}</div>
     <div className="field"> {customer.interestPercent}%</div>

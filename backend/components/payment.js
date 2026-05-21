@@ -26,7 +26,31 @@ const getpayment = async(req, res, next)=>{
     }
 }
 
+const getsingle = async(req, res, next)=>{
 
+    try{
+        const id = req.params.id;
+
+        const payment = await paymentSchema.findById({_id:id});
+        //const payment = await paymentschema.find({customerId: new mongoose.Types.ObjectId(id)});
+        if(payment.length == 0){
+            res.status(404).json({
+            success:true,
+            payment:payment
+        })
+        }else{
+            res.status(200).json({
+            success: true,
+            payment:payment
+            });
+        }
+    }catch(err){
+        res.status(500).json({
+            success:false,
+            message:err.message
+        });
+    }
+}
 
 const addpayment = async (req, res) => {
 
@@ -115,10 +139,16 @@ const deletepayment = async(req, res, next)=>{
     }
 
     const updatepayment=async(req,res)=>{
-        console.log("update payment successfully"); 
+        
     try{
         const id=req.params.id;
         const updatepayment=req.body;
+        const pay = await paymentSchema.findById({_id:id});
+        const custom  = await customerSchema.findById({_id:pay.customerId});
+            custom.remainingAmount += pay.paidAmount;
+            custom.paidinterest -= pay.Paidinterest;
+            await custom.save()
+
         const payment=await paymentSchema.findByIdAndUpdate({_id:id},{$set:updatepayment},{new:true})
         if(!payment){
             res.status(404).json({
@@ -130,6 +160,11 @@ const deletepayment = async(req, res, next)=>{
                 success:true,
                 message:"payment updated successfully"
             })
+
+            const customer  = await customerSchema.findById({_id:payment.customerId});
+            customer.remainingAmount -= payment.paidAmount;
+            customer.paidinterest += payment.Paidinterest;
+            await customer.save();
         }
         }
         catch(err){
@@ -140,4 +175,4 @@ const deletepayment = async(req, res, next)=>{
         }
     }
 
-module.exports = {getpayment:getpayment, addpayment:addpayment,deletepayment:deletepayment,updatepayment:updatepayment};
+module.exports = {getpayment:getpayment, addpayment:addpayment,deletepayment:deletepayment,updatepayment:updatepayment, getsingle:getsingle};

@@ -178,7 +178,7 @@ const display = {
       <h2>₹{remainingAmount}</h2>
     </div>
 
-    <div className="card">
+    <div className="card ">
       <h3>📈 Interest Rate</h3>
       <h2>{interestPercent}%</h2>
     </div>
@@ -194,7 +194,7 @@ const display = {
   {/* ================= PAYMENT SUMMARY ================= */}
   <div className="section">
 
-    <div className="card">
+    <div className="card highlight">
       <h3>🔵 Paid Principal</h3>
       <h2>₹{principalPaid}</h2>
     </div>
@@ -223,6 +223,8 @@ const display = {
             <div><strong>paid interest</strong> </div>
             <div><strong>remainingBalance</strong></div>
             <div><strong>paid date</strong> </div>
+            <div><strong>Delete</strong> </div>
+            <div><strong>Update</strong> </div>
             </div>
             {payment.map((p, index) => (
                 <Payment key={index} payment={p} index={index}  setpayment={setpayment}/>
