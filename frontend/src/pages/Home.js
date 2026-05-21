@@ -9,7 +9,6 @@ export default function Home(){
         const fetchdata = async()=>{
             try{
                 const res = await axios.get(`${process.env.REACT_APP_API_URL}/customer`);
-                console.log(res.data.customer);
                 setcustomer(res.data.customer);
             }catch(err){
                 console.log(err);

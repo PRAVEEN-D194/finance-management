@@ -35,11 +35,14 @@ export default function Payment({ payment, index , setpayment}) {
     }
         
     }
-      
-      
     catch(err){
       console.log(err);
     }
+    }
+
+
+    const onupdate = ()=>{
+      navigate(`/updatepayment/${payment._id}`)
     }
 
   return (
@@ -49,7 +52,21 @@ export default function Payment({ payment, index , setpayment}) {
       <div> {payment.Paidinterest}</div>
       <div>{payment.remainingBalance}</div>
       <div>{new Date(payment.paidDate).toLocaleDateString()}</div>
-      <div><button onClick={ ondelete }>delete</button></div>
+      <div className="payment-actions">
+    <div>
+        <button className="delete" onClick={ondelete}>
+            Delete
+        </button>
+    </div>
+    </div>
+    <div className="payment-actions">
+
+    <div>
+        <button className="update" onClick={onupdate}>
+            Update
+        </button>
+    </div>
+</div>
     </div>
   );
 }
